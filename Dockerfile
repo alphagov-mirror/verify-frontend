@@ -10,26 +10,24 @@ RUN apt-get update && \
     apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /app
-WORKDIR /app
+RUN mkdir -p /verify-frontend
+WORKDIR /verify-frontend
 
-COPY Gemfile      /app/
-COPY Gemfile.lock /app/
+COPY Gemfile      /verify-frontend/
+COPY Gemfile.lock /verify-frontend/
 
 RUN bundle config --global frozen 1
 RUN bundle install --without development test
 
-COPY . /app
+COPY . /verify-frontend
 
-RUN date '+%s' > /app/.build-number
+RUN date '+%s' > /verify-frontend/.build-number
 
 ENV SECRET_KEY_BASE notused
 
 RUN bash -c 'source .env \
              && export $(cut -d= -f1 .env) \
              && bundle exec rake assets:precompile' \
-    && ln -s /app/public/assets /assets
+    && ln -s /verify-frontend/public/assets /assets
 
-RUN sed -i '/stdout_redirect/d' /app/config/puma.rb
-
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["rails", "server", "-b", "0.0.0.0", "-p", "8080"]

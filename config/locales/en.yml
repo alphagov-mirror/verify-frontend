@@ -100,7 +100,7 @@ en:
       description: Because Javascript is not enabled on your browser, you must press the continue button
     prove_identity:
       title: Prove your identity to continue
-      heading: Prove your identity to continue
+      heading: Prove your identity to continue m9
       header_content: Choose how you want to prove your identity so you can
       use_verify:
         heading: Use GOV.UK Verify
