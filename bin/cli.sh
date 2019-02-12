@@ -45,6 +45,10 @@ for file in $(_p "/etc/${APP_NAME}/conf.d")/*; do
   if [ -f $file ]; then . $file; fi
 done
 
+if [ -f "/etc/default/${APP_NAME}" ]; then
+  . "/etc/default/${APP_NAME}"
+fi
+
 # Some actions require root privileges
 ensure_root() {
   if [ $(id -u) -ne 0 ]; then
