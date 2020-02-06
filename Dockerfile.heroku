@@ -25,10 +25,11 @@ RUN echo 'heroku' > /verify-frontend/.build-number
 
 RUN bash -c 'source .env \
              && export $(cut -d= -f1 .env) \
-             && bundle exec rake assets:precompile' \
+             && bundle exec rake assets:precompile \
+             && bundle exec rake assets:copy_govuk_dependencies \
+             && bundle exec rake assets:undigest_font_and_image_assets' \
     && ln -s /verify-frontend/public/assets /assets
 
 # Puma needs these dockerignored dirs to write to
-RUN bundle exec rake assets:precompile assets:undigest_assets
 RUN mkdir -p log tmp
 
